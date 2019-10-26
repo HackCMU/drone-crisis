@@ -1,0 +1,24 @@
+{
+  "name": "drone-crisis",
+  "version": "1.0.0",
+  "description": "A 2D game with drones &amp; actions! Help safe-guard the world from terrorism!",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HackCMU/drone-crisis.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HackCMU/drone-crisis/issues"
+  },
+  "homepage": "https://github.com/HackCMU/drone-crisis#readme",
+  "dependencies": {
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.6.4"
+  }
+}
