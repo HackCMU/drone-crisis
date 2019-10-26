@@ -8,16 +8,16 @@ import { Depth } from './Depth';
 export class TestSquare extends Component {
   public update(deltaMs: number, game: Game): void {
     if (game.keyboard.isKeyPressed(Key.A)) {
-      this.translateFrame(deltaMs * -0.2, 0);
+      this.frame.translate(deltaMs * -0.2, 0);
     }
     if (game.keyboard.isKeyPressed(Key.D)) {
-      this.translateFrame(deltaMs * 0.2, 0);
+      this.frame.translate(deltaMs * 0.2, 0);
     }
     if (game.keyboard.isKeyPressed(Key.W)) {
-      this.translateFrame(0, deltaMs * -0.2);
+      this.frame.translate(0, deltaMs * -0.2);
     }
     if (game.keyboard.isKeyPressed(Key.S)) {
-      this.translateFrame(0, deltaMs * 0.2);
+      this.frame.translate(0, deltaMs * 0.2);
     }
   }
   public render(ctx: CanvasRenderingContext2D, game: Game): void {
