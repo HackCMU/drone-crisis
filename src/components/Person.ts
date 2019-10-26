@@ -6,7 +6,7 @@ import {Depth} from './Depth';
 import {Mobile} from './Mobile';
 
 export class Person extends Mobile {
-    private static dir = 'images/1x/person/';
+    private static dir = 'images/person/';
     private static images = new Array(12)
         .fill(1).map((_, index) => Person.dir + index)
         .map(dir => getImage(dir));
