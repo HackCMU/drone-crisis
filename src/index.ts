@@ -3,6 +3,7 @@ import { Depth } from './components/Depth';
 import { TestSquare } from './components/TestSquare';
 import { Game } from './Game';
 import { loadImages } from './Image';
+import { Rect2D } from './Rect2D';
 import { Vector2D } from './Vector2D';
 
 (async () => {
@@ -13,6 +14,6 @@ import { Vector2D } from './Vector2D';
     game.setCanvasDimension(new Vector2D(window.innerWidth, window.innerHeight));
   });
 
-  game.addComponent(new TestSquare(Depth.SKY));
-  game.addComponent(new TestSquare(Depth.BUILDING_2));
+  // game.addComponent(new TestSquare(Depth.SKY, game.frame));
+  game.addComponent(new TestSquare(Depth.BUILDING_2, new Rect2D(game.frame.center, Vector2D.zero)));
 })();
