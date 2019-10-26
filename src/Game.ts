@@ -50,7 +50,7 @@ export class Game {
         this.update();
         this.render();
         requestAnimationFrame(this.loop);
-    };
+    }
 
     /** Set the dimensions of all canvases */
     public setCanvasDimension(newDimensions: Vector2D) {
