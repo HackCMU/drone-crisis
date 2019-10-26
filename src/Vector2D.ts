@@ -29,6 +29,20 @@ export class Vector2D {
         return new Vector2D(this.x / m, this.y / m);
     }
 
+    public limit(magnitude: number) {
+        if (this.mag > magnitude) {
+            this.setMag(magnitude);
+        }
+    }
+
+    public setMag(m: number) {
+        this.multiply(m / this.mag);
+    }
+
+    public copy(): Vector2D {
+        return new Vector2D(this.x, this.y);
+    }
+
     public get mag(): number {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }

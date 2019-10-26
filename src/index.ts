@@ -17,5 +17,5 @@ import {Vector2D} from './Vector2D';
 
     // game.addComponent(new TestSquare(Depth.SKY, game.frame));
     // game.addComponent(new TestSquare(Depth.BUILDING_2, new Rect2D(game.frame.center, Vector2D.zero)));
-    game.addComponent(new Drone(100, new Rect2D(game.frame.center, new Vector2D(20, 20))));
+    game.addComponent(new Drone(new Rect2D(game.frame.center, new Vector2D(20, 20))));
 })();

@@ -9,18 +9,50 @@ import {Depth} from './Depth';
 export class Drone extends Component {
     /**
      * Instantiates a new drone object.
-     * @param speed speed is in pixels per second.
+     * @param maxSpeed max speed of the drone in `pixels/sec`.
+     * @param acc acceleration in `pixels/sec^2`
+     * @param vel initial velocity of the drone, a `Vector2D` with magnitude in `pixels/sec`
      * @param frame rectangle containing the drone.
      */
-    public constructor(public speed: number, frame: Rect2D) {
+    public constructor(
+        frame: Rect2D,
+        public maxSpeed: number = 30,
+        public vel: Vector2D = Vector2D.zero,
+        public acc: number = 50,
+    ) {
         super(Depth.FRONT, frame);
     }
 
     public update(deltaMs: number, game: Game): void {
-        const mag = this.speed * deltaMs / 1000;
-        const vel = this.heading(game).multiplying(mag);
-        console.info(vel);
-        this.frame.translate(vel);
+        const mag = this.acc * deltaMs / 1000;
+        if (this.isAccelerating(game)) {
+            const accVec = this.heading(game).multiplying(mag);
+            this.vel.add(accVec);
+        } else {
+            const brakeDir = this.vel.normalized()
+                .multiplying(-1 * mag);
+            brakeDir.limit(this.vel.mag);
+            this.vel.add(brakeDir);
+        }
+        this.vel.limit(this.maxSpeed);
+        this.frame.translate(this.vel);
+    }
+
+    /**
+     * The drone is constantly in one of the two states - accelerating or braking.
+     * @returns true if the drone is accelerating, i.e. one of W, A, S, or D is pressed.
+     */
+    public isAccelerating(game: Game): boolean {
+        return game.keyboard.isKeysPressed([Key.W, Key.A, Key.S, Key.D]);
+    }
+
+    private static get accVecs(): Array<{ key: Key, dir: Vector2D }> {
+        return [
+            {key: Key.W, dir: Vector2D.unitVectors.up},
+            {key: Key.S, dir: Vector2D.unitVectors.down},
+            {key: Key.A, dir: Vector2D.unitVectors.left},
+            {key: Key.D, dir: Vector2D.unitVectors.right},
+        ];
     }
 
     /**
@@ -29,23 +61,16 @@ export class Drone extends Component {
      */
     public heading(game: Game): Vector2D {
         const h = new Vector2D(0, 0);
-        if (game.keyboard.isKeyPressed(Key.W)) {
-            h.add(Vector2D.unitVectors.up);
-        }
-        if (game.keyboard.isKeyPressed(Key.S)) {
-            h.add(Vector2D.unitVectors.down);
-        }
-        if (game.keyboard.isKeyPressed(Key.A)) {
-            h.add(Vector2D.unitVectors.left);
-        }
-        if (game.keyboard.isKeyPressed(Key.D)) {
-            h.add(Vector2D.unitVectors.right);
+        for (const o of Drone.accVecs) {
+            if (game.keyboard.isKeyPressed(o.key)) {
+                h.add(o.dir);
+            }
         }
         return h.normalized();
     }
 
     public render(ctx: CanvasRenderingContext2D, game: Game): void {
-        ctx.fillStyle = `rgb(255, ${Math.random() * 255}, 128)`;
+        ctx.fillStyle = `rgb(0, 0, 0)`;
         ctx.fillRect(0, 0, this.frame.size.x, this.frame.size.y);
     }
 }
