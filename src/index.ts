@@ -1,13 +1,12 @@
-const canvas = document.createElement('canvas');
-canvas.width = 1920;
-canvas.height = 1080;
-const ctx = canvas.getContext('2d')!;
-document.body.appendChild(canvas);
+import { Depth } from './components/Depth';
+import { TestSquare } from './components/TestSquare';
+import { Game } from './Game';
+import { Vector2D } from './Vector2D';
 
-function loop() {
-  ctx.fillStyle = `rgb(23, 30, ${Math.random()*255})`;
-  ctx.fillRect(0, 0, 1920, 1090);
-  requestAnimationFrame(loop);
-}
-requestAnimationFrame(loop);
+const game: Game = new Game(new Vector2D(window.innerWidth, window.innerHeight));
+window.addEventListener('resize', () => {
+  game.setCanvasDimension(new Vector2D(window.innerWidth, window.innerHeight));
+});
 
+game.addComponent(new TestSquare(Depth.SKY));
+game.addComponent(new TestSquare(Depth.BUILDING_2));
