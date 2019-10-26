@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dronecrisis
+spec:
+  selector:
+    app: dronecrisis
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80

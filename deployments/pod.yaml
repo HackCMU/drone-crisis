@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dronecrisis
+  labels:
+    app: dronecrisis
+spec:
+  selector:
+    matchLabels:
+      app: dronecrisis
+  template:
+    metadata:
+      labels:
+        app: dronecrisis
+    spec:
+      containers:
+        - name: dronecrisis
+          image: gcr.io/dronecrisis/dronecrisis:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
