@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dronecrisis
+  namespace: default
   labels:
     app: dronecrisis
 spec:

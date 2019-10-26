@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dronecrisis
+  namespace: default
+  annotations:
+    networking.gke.io/managed-certificates: "dronecrisis-ssl"
+spec:
+  backend:
+    serviceName: "dronecrisis"
+    servicePort: 80

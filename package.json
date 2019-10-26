@@ -9,7 +9,8 @@
     "build": "parcel build index.html",
     "deploy:image": "./deployments/build_image.sh",
     "deploy:init": "./deployments/init.sh",
-    "deploy:push": "./deployments/update.sh"
+    "deploy:push": "./deployments/update.sh",
+    "deploy": "npm run build && npm run deploy:image && npm run deploy:push"
   },
   "repository": {
     "type": "git",
