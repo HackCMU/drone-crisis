@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/HackCMU/drone-crisis#readme",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "parcel-bundler": "^1.12.4",
     "typescript": "^3.6.4"
   },

@@ -19,6 +19,7 @@ export class Game {
       component.render(this.canvases[component.depth][1], this);
     }
   }
+  /** Last time in ms update() is called */
   private lastUpdate: number = Date.now();
   /** Update all components */
   private update() {

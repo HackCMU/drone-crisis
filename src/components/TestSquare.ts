@@ -1,4 +1,5 @@
 import { Game } from '../Game';
+import { getImage } from '../Image';
 import { Key } from '../Keyboard';
 import { Component } from './Component';
 import { Depth } from './Depth';
@@ -22,7 +23,7 @@ export class TestSquare extends Component {
   }
   public render(ctx: CanvasRenderingContext2D, game: Game): void {
     ctx.fillStyle = `rgb(255, ${Math.random() * 255}, 128)`;
-    ctx.fillRect(this.x, this.y, 100, 100);
+    ctx.drawImage(getImage('building1'), this.x, this.y);
   }
   public constructor(depth: Depth) {
     super(depth);
