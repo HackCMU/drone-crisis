@@ -5,9 +5,32 @@ export class Vector2D {
     ) {
     }
 
+    /**
+     * Instantiates a new unit vector from the given radians.
+     */
+    public static fromAngle(radians: number): Vector2D {
+        return new Vector2D(Math.cos(radians), Math.sin(radians));
+    }
+
+    /**
+     * @returns a new random unit vector
+     */
+    public static get random(): Vector2D {
+        return new Vector2D(Math.random() - 0.5, Math.random() - 0.5);
+    }
+
     public add(another: Vector2D) {
         this.x += another.x;
         this.y += another.y;
+    }
+
+    public sub(another: Vector2D) {
+        this.x -= another.x;
+        this.y -= another.y;
+    }
+
+    public subtracting(another: Vector2D) {
+        return new Vector2D(this.x - another.x, this.y - another.y);
     }
 
     public adding(another: Vector2D): Vector2D {
@@ -21,6 +44,14 @@ export class Vector2D {
 
     public multiplying(scalar: number): Vector2D {
         return new Vector2D(this.x * scalar, this.y * scalar);
+    }
+
+    public get heading(): number {
+        return Math.atan2(this.y, this.x);
+    }
+
+    public rotate(radians: number) {
+        return Vector2D.fromAngle(radians + this.heading).multiplying(this.mag);
     }
 
     public normalized(): Vector2D {

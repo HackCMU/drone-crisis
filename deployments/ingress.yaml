@@ -5,6 +5,7 @@ metadata:
   namespace: default
   annotations:
     networking.gke.io/managed-certificates: "dronecrisis-ssl"
+    kubernetes.io/ingress.allow-http: "false"
 spec:
   backend:
     serviceName: "dronecrisis"

@@ -3,39 +3,61 @@ import {getImage} from '../Image';
 import {Key} from '../Keyboard';
 import {Rect2D} from '../Rect2D';
 import {Vector2D} from '../Vector2D';
+import {Bullet} from './Bullet';
 import {Component} from './Component';
 import {Depth} from './Depth';
+import {Mobile} from './Mobile';
 
-export class Drone extends Component {
+export class Drone extends Mobile {
+    private bulletsToFire: Array<Bullet> = [];
+
     /**
      * Instantiates a new drone object.
      * @param maxSpeed max speed of the drone in `pixels/sec`.
-     * @param acc acceleration in `pixels/sec^2`
+     * @param accMag magnitude of acceleration in `pixels/sec^2`
      * @param vel initial velocity of the drone, a `Vector2D` with magnitude in `pixels/sec`
      * @param frame rectangle containing the drone.
      */
     public constructor(
         frame: Rect2D,
-        public maxSpeed: number = 30,
+        public maxSpeed: number = 1000,
         public vel: Vector2D = Vector2D.zero,
-        public acc: number = 50,
+        public accMag: number = 50,
     ) {
-        super(Depth.FRONT, frame);
+        super(Depth.FRONT, frame, vel, maxSpeed, Vector2D.zero);
+        window.addEventListener('mousedown', event => {
+            const mouseVec = new Vector2D(event.clientX, event.clientY);
+            const dir = mouseVec.subtracting(this.frame.origin);
+            this.fire(dir);
+        });
     }
 
     public update(deltaMs: number, game: Game): void {
-        const mag = this.acc * deltaMs / 1000;
         if (this.isAccelerating(game)) {
-            const accVec = this.heading(game).multiplying(mag);
-            this.vel.add(accVec);
+            // Accelerate
+            this.acc = this.heading(game).multiplying(this.accMag);
         } else {
-            const brakeDir = this.vel.normalized()
-                .multiplying(-1 * mag);
-            brakeDir.limit(this.vel.mag);
-            this.vel.add(brakeDir);
+            // Brake
+            this.acc = this.vel.normalized()
+                .multiplying(-1 * this.accMag);
         }
-        this.vel.limit(this.maxSpeed);
-        this.frame.translate(this.vel);
+        super.update(deltaMs, game);
+        for (const bullet of this.bulletsToFire) {
+            game.addComponent(bullet);
+        }
+    }
+
+    public render(ctx: CanvasRenderingContext2D): void {
+        ctx.fillStyle = `rgb(0, 0, 0)`;
+        ctx.beginPath();
+        ctx.arc(this.frame.width / 2, this.frame.height / 2, this.frame.width / 2, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    public fire(dir: Vector2D) {
+        const frame = new Rect2D(this.frame.center.copy(), new Vector2D(20, 3));
+        const bullet = new Bullet(dir.normalized().multiplying(1000), frame);
+        this.bulletsToFire.push(bullet);
     }
 
     /**
@@ -67,10 +89,5 @@ export class Drone extends Component {
             }
         }
         return h.normalized();
-    }
-
-    public render(ctx: CanvasRenderingContext2D, game: Game): void {
-        ctx.fillStyle = `rgb(0, 0, 0)`;
-        ctx.fillRect(0, 0, this.frame.size.x, this.frame.size.y);
     }
 }

@@ -1,5 +1,22 @@
 // @ts-ignore
-import imageUrlMapping from './../images/*.png';
+import imageUrlNestedMapping from './../images/**/*.png';
+
+type NestedMapping = {
+  [path in string]: string | NestedMapping;
+};
+const imageUrlFlattenedMapping = new Map<string, string>();
+
+function flattenAndAdd(nestedMapping: NestedMapping, prefix = '') {
+  for (const pathPart of Object.keys(nestedMapping)) {
+    const urlOrNestedMapping = nestedMapping[pathPart];
+    if (typeof urlOrNestedMapping === 'string') {
+      imageUrlFlattenedMapping.set(prefix + pathPart, urlOrNestedMapping);
+    } else {
+      flattenAndAdd(urlOrNestedMapping, prefix + pathPart + '/');
+    }
+  }
+}
+flattenAndAdd(imageUrlNestedMapping);
 
 function loadImageOnce(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -38,8 +55,8 @@ export class Image {
 }
 
 const images = new Map<string, Image>();
-for (const imageName of Object.keys(imageUrlMapping)) {
-  images.set(imageName, new Image(imageUrlMapping[imageName]));
+for (const imageName of imageUrlFlattenedMapping.keys()) {
+  images.set(imageName, new Image(imageUrlFlattenedMapping.get(imageName)!));
 }
 export function loadImages(): Promise<void> {
   return new Promise(resolve => {
@@ -70,5 +87,9 @@ export function loadImages(): Promise<void> {
   });
 }
 export function getImage(name: string) {
-  return images.get(name)!.tag;
+  const image = images.get(name);
+  if (image === undefined) {
+    throw new Error(`Cannot find image "${name}". Available: ${Array.from(imageUrlFlattenedMapping.keys()).join(', ')}.`);
+  }
+  return image.tag;
 }
