@@ -14,7 +14,6 @@ export class TextButton extends Text {
     }
 
     public didSelect() {
-        console.log("tapped");
         this.callback(this);
     }
 }

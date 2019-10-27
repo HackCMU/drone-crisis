@@ -224,6 +224,6 @@ export class Game {
             }
         }
         return hitComponents.length > 0 ?
-            hitComponents.reduce((a, b) => a.depth > b.depth ? a : b) : undefined;
+            hitComponents.reduce((a, b) => a.depth < b.depth ? a : b) : undefined;
     }
 }
