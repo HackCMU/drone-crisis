@@ -181,7 +181,8 @@ export class Game {
         const bounds = this.getBounds();
         const position = (new Vector2D(event.clientX, event.clientY))
             .multiplying(this.cameraScale)
-            .adding(this.cameraCenter.adding(bounds.origin));
+            .adding(bounds.origin);
+        console.log(bounds, position);
         const component = this.componentAtPosition(position);
         if (typeof component !== 'undefined') {
             component.didSelect();
@@ -222,6 +223,7 @@ export class Game {
                 }
             }
         }
-        return hitComponents.reduce((a, b) => a.depth > b.depth ? a : b);
+        return hitComponents.length > 0 ?
+            hitComponents.reduce((a, b) => a.depth > b.depth ? a : b) : undefined;
     }
 }

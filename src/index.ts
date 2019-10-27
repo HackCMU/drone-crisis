@@ -18,7 +18,8 @@ import {Vector2D} from './Vector2D';
     });
 
     // game.transitionToScene(new IntroScene(game, new Vector2D(window.innerWidth, window.innerHeight)));
-    game.transitionToScene(new Scene1(game));
+    // game.transitionToScene(new Scene1(game));
+    game.transitionToScene(new IntroScene(game));
 
     // game.addComponent(new TestSquare(Depth.SKY, game.frame));
     // game.addComponent(new TestSquare(Depth.BUILDING_2, new Rect2D(game.frame.center, Vector2D.zero)));

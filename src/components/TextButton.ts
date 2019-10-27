@@ -8,9 +8,13 @@ export class TextButton extends Text {
         origin: Vector2D,
         content: string,
         public callback: (source: TextButton) => void,
-    ) { super(depth, origin, content); }
+    ) {
+        super(depth, origin, content);
+        console.log(this.frame);
+    }
 
     public didSelect() {
+        console.log("tapped");
         this.callback(this);
     }
 }
