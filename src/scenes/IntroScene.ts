@@ -1,12 +1,14 @@
 import {Depth} from '../components/Depth';
+import {Fragment} from '../components/Fragment';
+import {FXText} from '../components/FXText';
 import {Text} from '../components/Text';
 import {TextButton} from '../components/TextButton';
+import {White} from '../components/White';
 import {Game} from '../Game';
+import {Rect2D} from '../Rect2D';
 import {Vector2D} from '../Vector2D';
 import {Scene} from './Scene';
 import {Scene1} from './Scene1';
-import {White} from "../components/White";
-import {Rect2D} from "../Rect2D";
 
 export class IntroScene extends Scene {
     constructor(game: Game) {
@@ -21,7 +23,7 @@ export class IntroScene extends Scene {
         // this.addComponent(
         //     new Background(Depth.BUILDING_2, getImage('building_total')),
         // );
-        const gameTitle = new Text(
+        const gameTitle = new FXText(
             Depth.FRONT,
             this.dimensions.innerProduct(new Vector2D(0.5, 0.48)),
             'Done Crisis',
@@ -49,7 +51,7 @@ export class IntroScene extends Scene {
 
     public sceneWillAppear() {
         super.sceneWillAppear();
-        this.game.setCamera(this.dimensions.multiplying(0.5), 1.0);
+        this.game.setCamera(this.dimensions.multiplying(0.5), 1);
     }
 
     public onButtonTapped = (source: TextButton) => {

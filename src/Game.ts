@@ -180,7 +180,7 @@ export class Game {
     private onMouseUpEvent = (event: MouseEvent) => {
         const bounds = this.getBounds();
         const position = (new Vector2D(event.clientX, event.clientY))
-            .multiplying(this.cameraScale)
+            .multiplying(1 / this.cameraScale)
             .adding(bounds.origin);
         console.log(bounds, position);
         const component = this.componentAtPosition(position);
@@ -194,7 +194,7 @@ export class Game {
         return new Rect2D(
             this.cameraCenter
                 .adding(size.multiplying(-0.5)),
-            size,
+            size.multiplying(1 / this.cameraScale),
         );
     }
 
