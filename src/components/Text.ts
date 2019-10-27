@@ -15,7 +15,7 @@ export class Text extends Component {
      * |      (.5, .5)      |
      * (0, 1) -------- (1, 1)
      */
-    public anchor: Vector2D = new Vector2D(1, 1);
+    public anchor: Vector2D = new Vector2D(0.5, 0.5);
 
     constructor(
         depth: Depth,
@@ -32,15 +32,14 @@ export class Text extends Component {
         ctx.textAlign = 'center';
         ctx.fillStyle = this.style;
         const canvasTextSize = ctx.measureText(this.content);
-        const textSize = new Vector2D(canvasTextSize.width, this.fontSize);
-        const translatedTextPosition = this.anchor
-            .adding(new Vector2D(-0.5, -0.5))
-            .innerProduct(textSize)
-        if (this.frame.size.width !== textSize.width) {
-            this.frame.size = textSize;
-            this.frame.origin.add(translatedTextPosition);
-            this.frame.origin.add(this.frame.size.multiplying(-0.5));
-        }
+        const textSize = new Vector2D(canvasTextSize.width, this.fontSize + 10);
+        const translatedTextPosition = this.anchor.innerProduct(textSize);
+        this.frame.origin.add(
+            textSize
+                .adding(this.frame.size.multiplying(-1))
+                .multiplying(-0.5),
+        );
+        this.frame.size = textSize;
         // ctx.fillRect(0, 0, textSize.width, textSize.height)
         ctx.fillText(
             this.content,
