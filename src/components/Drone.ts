@@ -6,7 +6,9 @@ import {Vector2D} from '../Vector2D';
 import {Bullet} from './Bullet';
 import {Component} from './Component';
 import {Depth} from './Depth';
+import {Fragment} from './Fragment';
 import {Mobile} from './Mobile';
+import {Obstacle} from './Obstacle';
 import {Person} from './Person';
 import {Text} from './Text';
 
@@ -31,6 +33,22 @@ export class Drone extends Mobile {
     }
 
     public update(deltaMs: number, game: Game): void {
+        // for (const obs of game.scene!.components) {
+        //     if (obs instanceof Obstacle && obs.depth === this.depth) {
+        //         const points = [
+        //             this.frame.origin,
+        //             this.frame.origin.adding(this.frame.size),
+        //             this.frame.origin.adding(new Vector2D(this.frame.width, 0)),
+        //             this.frame.origin.adding(new Vector2D(0, this.frame.height)),
+        //         ];
+        //         for (const co of points) {
+        //             if (obs.frame.contains(co)) {
+        //                 Fragment.createExplosion(game, this.frame.center, 100, this.frame.width / 5);
+        //                 game.scene!.removeComponent(this);
+        //             }
+        //         }
+        //     }
+        // }
         if (this.isAccelerating(game)) {
             // Accelerate
             this.acc = this.heading(game).multiplying(this.accMag);
