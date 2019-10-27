@@ -12,6 +12,13 @@ export class Vector2D {
         return new Vector2D(Math.cos(radians), Math.sin(radians));
     }
 
+    /**
+     * @returns a new random unit vector
+     */
+    public static get random(): Vector2D {
+        return new Vector2D(Math.random(), Math.random());
+    }
+
     public add(another: Vector2D) {
         this.x += another.x;
         this.y += another.y;

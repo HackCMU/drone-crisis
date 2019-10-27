@@ -6,10 +6,12 @@ import {Depth} from './Depth';
 import {Mobile} from './Mobile';
 
 export class Person extends Mobile {
-    private static dir = 'images/person/';
-    private static images = new Array(12)
-        .fill(1).map((_, index) => Person.dir + index)
-        .map(dir => getImage(dir));
+    private static readonly dir = 'person/walk_';
+    // Constant for matching velocity and frame rate.
+    private static readonly k = 30;
+    private static readonly numFrames = 12;
+    // Start at different frame to prevent mob effect.
+    private currIdx: number = Math.floor(Math.random() * Person.numFrames);
 
     public constructor(depth: Depth, frame: Rect2D, public speed: number) {
         super(depth, frame, Vector2D.zero, 200, Vector2D.zero);
@@ -24,7 +26,15 @@ export class Person extends Mobile {
     }
 
     public render(ctx: CanvasRenderingContext2D, game: Game): void {
-        // i
+        const image = getImage(Person.dir + Math.floor(this.currIdx) % Person.numFrames);
+        ctx.save();
+        if (this.vel.x > 0) {
+            ctx.translate(this.frame.width, 0);
+            ctx.transform(-1, 0, 0, 1, 0, 0);
+        }
+        ctx.drawImage(image, 0, 0, this.frame.size.x, this.frame.size.y);
+        ctx.restore();
+        this.currIdx += Person.k / this.speed;
     }
 
     private static chance(prob: number): boolean {
