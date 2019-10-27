@@ -1,7 +1,7 @@
 import { Game } from '../Game';
+import {Vector2D} from '../Vector2D';
 import { Fragment } from './Fragment';
 import { Text } from './Text';
-import {Vector2D} from "../Vector2D";
 
 export class FXText extends Text {
     public update(deltaMs: number, game: Game) {

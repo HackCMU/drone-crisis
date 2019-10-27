@@ -21,17 +21,14 @@ export class Person extends Mobile {
         private left: number,
         private right: number,
     ) {
-        super(depth, new Rect2D(start, Vector2D.zero), Vector2D.zero, 200, Vector2D.zero);
+        super(depth, new Rect2D(start, new Vector2D(200, 200)), Vector2D.zero, 200, Vector2D.zero);
         this.vel = Person.randomDir.multiplying(speed);
     }
 
     public update(deltaMs: number, game: Game): void {
         if (!this.isAlive) {
-            Fragment.createExplosion(game, this.frame.center, 20, 15);
+            Fragment.createExplosion(game, this.frame.center, 20, this.frame.width / 10);
             game.scene!.removeComponent(this);
-        }
-        if (Person.chance(0.002)) {
-            this.die();
         }
         if (this.frame.x < this.left - 70) {
             this.vel = Vector2D.unitVectors.right.multiplying(this.speed);
@@ -49,7 +46,7 @@ export class Person extends Mobile {
             ctx.translate(200, 0);
             ctx.transform(-1, 0, 0, 1, 0, 0);
         }
-        ctx.drawImage(image, 0, 0);
+        ctx.drawImage(image, 0, 0, this.frame.width, this.frame.height);
         ctx.restore();
         this.currIdx += 1 / this.speed;
     }

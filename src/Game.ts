@@ -1,12 +1,12 @@
-import { Bullet } from './components/Bullet';
-import { Component } from './components/Component';
-import { Depth, getDepthTranslatingFactor } from './components/Depth';
-import { Person } from './components/Person';
-import { Keyboard } from './Keyboard';
-import { MonoDimensionTransitionControl } from './MonoDimensionTransitionControl';
-import { Rect2D } from './Rect2D';
-import { Scene } from './scenes/Scene';
-import { Vector2D } from './Vector2D';
+import {Bullet} from './components/Bullet';
+import {Component} from './components/Component';
+import {Depth, getDepthTranslatingFactor} from './components/Depth';
+import {Person} from './components/Person';
+import {Keyboard} from './Keyboard';
+import {MonoDimensionTransitionControl} from './MonoDimensionTransitionControl';
+import {Rect2D} from './Rect2D';
+import {Scene} from './scenes/Scene';
+import {Vector2D} from './Vector2D';
 
 export class Game {
     /** Used this to get the state of keyboard */
@@ -51,6 +51,7 @@ export class Game {
         this.cameraCenterYTransition = new MonoDimensionTransitionControl(newCenter.y, 10000);
         this.cameraScale = scale;
     }
+
     public moveCamera(newCenter: Vector2D, scale: number) {
         this.cameraCenterXTransition.setTarget(newCenter.x);
         this.cameraCenterYTransition.setTarget(newCenter.y);
@@ -76,9 +77,9 @@ export class Game {
 
     // Check collisions between components
     private checkCollisions(): void {
-        for (const person of this.components) {
+        for (const person of this.scene!.components) {
             if (person instanceof Person) {
-                for (const bullet of this.components) {
+                for (const bullet of this.scene!.components) {
                     if (bullet instanceof Bullet) {
                         const x = bullet.frame.x;
                         const y = bullet.frame.y;
@@ -88,6 +89,7 @@ export class Game {
                         const h = person.frame.height;
                         if (x <= myX + w && x >= myX && y <= myY + h && y >= myY) {
                             person.die();
+                            console.log('boom');
                             bullet.hasExpired = true;
                         }
                     }
@@ -101,6 +103,7 @@ export class Game {
 
     /** Update all components */
     private update() {
+        this.checkCollisions();
         this.cameraCenter.x = Math.max(this.cameraCenterXTransition.getValue(), window.innerWidth / 2 / this.cameraScale);
         this.cameraCenter.y = Math.min(this.cameraCenterYTransition.getValue(), this.scene!.dimensions.height - window.innerHeight / 2 / this.cameraScale);
         // if ((x + width) > game.scene!.dimensions.x) {

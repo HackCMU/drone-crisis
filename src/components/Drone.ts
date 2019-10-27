@@ -11,7 +11,7 @@ import {Person} from './Person';
 import {Text} from './Text';
 
 export class Drone extends Mobile {
-    private bulletsToFire: Array<Bullet> = [];
+    private bulletsToFire: number = 0;
 
     /**
      * Instantiates a new drone object.
@@ -27,11 +27,6 @@ export class Drone extends Mobile {
         public accMag: number = 50,
     ) {
         super(Depth.FRONT, frame, vel, maxSpeed, Vector2D.zero);
-        window.addEventListener('mousedown', event => {
-            const mouseVec = new Vector2D(event.clientX, event.clientY);
-            const dir = mouseVec.subtracting(this.frame.origin);
-            this.fire(dir);
-        });
     }
 
     private lastHeadingRight: boolean = true;
@@ -48,8 +43,8 @@ export class Drone extends Mobile {
         }
         super.update(deltaMs, game);
         this.updateCamera(game);
-        for (const bullet of this.bulletsToFire) {
-            game.scene!.components.add(bullet);
+        if (game.keyboard.isKeyPressed(Key.SPACE)) {
+            this.fire(game);
         }
     }
 
@@ -77,10 +72,11 @@ export class Drone extends Mobile {
         ctx.drawImage(img, 0, 0, this.frame.width, this.frame.height);
     }
 
-    public fire(dir: Vector2D) {
+    public fire(game: Game) {
         const frame = new Rect2D(this.frame.center.copy(), new Vector2D(20, 3));
-        const bullet = new Bullet(dir.normalized().multiplying(1000), frame);
-        this.bulletsToFire.push(bullet);
+        const dir = this.vel.normalized().multiplying(2000);
+        const bullet = new Bullet(this.vel.adding(dir), frame);
+        game.scene!.addComponent(bullet);
     }
 
     /**
