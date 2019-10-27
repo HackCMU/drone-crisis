@@ -77,7 +77,13 @@ export class Drone extends Mobile {
 
     public render(ctx: CanvasRenderingContext2D): void {
         const img = getImage('drone_body');
+        ctx.save();
+        if (Math.abs(this.vel.x) > 5) {
+            const angle = this.vel.x / 30 * Math.PI / 8;
+            ctx.rotate(angle);
+        }
         ctx.drawImage(img, 0, 0, this.frame.width, this.frame.height);
+        ctx.restore();
     }
 
     public fire(game: Game) {
