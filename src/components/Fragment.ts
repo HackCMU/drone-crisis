@@ -73,7 +73,7 @@ export class Fragment extends Mobile {
             const frame = new Rect2D(pos.copy(), new Vector2D(rSize, rSize));
             const dir = Vector2D.random.multiplying(200);
             const fragment = new Fragment(
-                Depth.PARTICLE_FRONT,
+                Depth.FRONT,
                 frame,
                 dir,
                 dir.multiplying(-0.1),

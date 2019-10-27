@@ -9,15 +9,19 @@ import {Mobile} from './Mobile';
 
 export class Person extends Mobile {
     private static readonly dir = 'person/walk_';
-    // Constant for matching velocity and frame rate.
-    private static readonly k = 30;
     private static readonly numFrames = 12;
     // Start at different frame to prevent mob effect.
     private currIdx: number = Math.floor(Math.random() * Person.numFrames);
     private isAlive = true;
 
-    public constructor(depth: Depth, frame: Rect2D, public speed: number) {
-        super(depth, frame, Vector2D.zero, 200, Vector2D.zero);
+    public constructor(
+        depth: Depth,
+        start: Vector2D,
+        private speed: number,
+        private left: number,
+        private right: number,
+    ) {
+        super(depth, new Rect2D(start, Vector2D.zero), Vector2D.zero, 200, Vector2D.zero);
         this.vel = Person.randomDir.multiplying(speed);
     }
 
@@ -26,8 +30,11 @@ export class Person extends Mobile {
             game.removeComponent(this);
             Fragment.createExplosion(game, this.frame.center, 20, this.frame.width / 20);
         }
-        if (Person.chance(0.01)) {
-            this.vel = Person.randomDir.multiplying(this.speed);
+        if (this.frame.x < this.left - 70) {
+            this.vel = Vector2D.unitVectors.right.multiplying(this.speed);
+        }
+        if (this.frame.x + 130 > this.right) {
+            this.vel = Vector2D.unitVectors.left.multiplying(this.speed);
         }
         super.update(deltaMs, game);
     }
@@ -36,12 +43,12 @@ export class Person extends Mobile {
         const image = getImage(Person.dir + Math.floor(this.currIdx) % Person.numFrames);
         ctx.save();
         if (this.vel.x > 0) {
-            ctx.translate(this.frame.width, 0);
+            ctx.translate(200, 0);
             ctx.transform(-1, 0, 0, 1, 0, 0);
         }
-        ctx.drawImage(image, 0, 0, this.frame.size.x, this.frame.size.y);
+        ctx.drawImage(image, 0, 0);
         ctx.restore();
-        this.currIdx += Person.k / this.speed;
+        this.currIdx += 1 / this.speed;
     }
 
     public die() {

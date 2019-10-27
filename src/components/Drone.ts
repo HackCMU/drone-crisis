@@ -32,19 +32,40 @@ export class Drone extends Mobile {
         });
     }
 
+    private lastHeadingRight: boolean = true;
     public update(deltaMs: number, game: Game): void {
         if (this.isAccelerating(game)) {
             // Accelerate
             this.acc = this.heading(game).multiplying(this.accMag);
+            this.lastHeadingRight = this.acc.x >= 0;
         } else {
             // Brake
             this.acc = this.vel.normalized()
                 .multiplying(-1 * this.accMag);
         }
         super.update(deltaMs, game);
+        this.updateCamera(game);
         for (const bullet of this.bulletsToFire) {
-            game.addComponent(bullet);
+            game.scene!.components.add(bullet);
         }
+    }
+
+    private a: number = 1;
+    private updateCamera(game: Game) {
+        const height = Math.max((game.scene!.dimensions.y - this.frame.center.y) * 1.4, 600);
+        const scale = height / window.innerHeight;
+        const width = scale * window.innerWidth;
+        const x = this.lastHeadingRight
+          ? this.frame.center.x - width * 0.3
+          : this.frame.center.x - width * 0.7;
+        game.moveCamera(new Vector2D(x + width / 2, game.scene!.dimensions.y - height / 2), 1 / scale);
+        // if (game.keyboard.isKeyPressed(Key.Q)) {
+        //     this.a -= 0.1;
+        // }
+        // if (game.keyboard.isKeyPressed(Key.E)) {
+        //     this.a += 0.1;
+        // }
+        // game.setCamera(this.frame.center, this.a);
     }
 
     public render(ctx: CanvasRenderingContext2D): void {

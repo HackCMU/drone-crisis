@@ -5,6 +5,22 @@ export class Vector2D {
     ) {
     }
 
+    public get width(): number {
+        return this.x;
+    }
+
+    public set width(newValue: number) {
+        this.x = newValue;
+    }
+
+    public get height(): number {
+        return this.y;
+    }
+
+    public set height(newValue: number) {
+        this.y = newValue;
+    }
+
     /**
      * Instantiates a new unit vector from the given radians.
      */
@@ -44,6 +60,10 @@ export class Vector2D {
 
     public multiplying(scalar: number): Vector2D {
         return new Vector2D(this.x * scalar, this.y * scalar);
+    }
+
+    public innerProduct(anotherVector: Vector2D): Vector2D {
+        return new Vector2D(this.x * anotherVector.x, this.y * anotherVector.y);
     }
 
     public get heading(): number {

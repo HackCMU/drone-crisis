@@ -1,5 +1,6 @@
 import {Component} from '../components/Component';
 import {Game} from '../Game';
+import { Vector2D } from '../Vector2D';
 
 /**
  * A scene is an object representing each distinctive stages of the Game
@@ -9,7 +10,8 @@ import {Game} from '../Game';
  */
 export abstract class Scene {
     public constructor(
-        public readonly parent: Game,
+        public readonly game: Game,
+        public readonly dimensions: Vector2D,
     ) { }
 
     /** Return the list of components owned by this scene for rendering */
@@ -19,7 +21,11 @@ export abstract class Scene {
      *
      * This is when the scene loads & initialize all of its components.
      */
-    public abstract sceneDidLoad(): void;
+    public sceneDidLoad() { }
+    /** Invoked when the scene is about to be unloaded from the Game */
+    public sceneWillDisappear() { }
+    /** Invoked when the scene is added to the Game and will be presented to the user */
+    public sceneWillAppear() { }
     protected addComponent(component: Component) {
         this.components.add(component);
     }

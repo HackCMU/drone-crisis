@@ -1,21 +1,19 @@
 import { Game } from '../Game';
-import { getImage } from '../Image';
 import { Rect2D } from '../Rect2D';
 import { Vector2D } from '../Vector2D';
 import { Component } from './Component';
-import { Depth } from './Depth';
+import { Depth, getDepthTranslatingFactor } from './Depth';
 
-class Background extends Component {
-    private static parallexScaleConstant = new Vector2D(1.1, 1.1);
-
-    constructor(depth: Depth, frame: Rect2D) {
-        super(depth, frame);
+export class Background extends Component {
+    constructor(
+        depth: Depth,
+        private image: HTMLImageElement,
+    ) {
+        super(depth, new Rect2D(Vector2D.zero, new Vector2D(image.width, image.height)));
     }
 
     public render(ctx: CanvasRenderingContext2D, game: Game) {
-        const layerImage = getImage('building_total.png');
-        const scaleCoefficient = this.depth - Depth.BUILDING_1;
-        // ctx.drawImage()
+        ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, -400 * this.depth, -300 * this.depth, this.image.width * this.depth / 2, this.image.height * this.depth / 2);
     }
 
     public update(deltaMs: number, game: Game) {

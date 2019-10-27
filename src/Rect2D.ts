@@ -27,20 +27,41 @@ export class Rect2D {
         return this.origin.x;
     }
 
+    public set x(val: number) {
+        this.origin.x = val;
+    }
+
     public get y(): number {
         return this.origin.y;
+    }
+
+    public set y(val: number) {
+        this.origin.y = val;
     }
 
     public get width(): number {
         return this.size.x;
     }
 
+    public set width(val: number) {
+        this.size.width = val;
+    }
+
     public get height(): number {
         return this.size.y;
     }
 
+    public set height(val: number) {
+        this.size.height = val;
+    }
+
     public get center(): Vector2D {
         return this.origin.adding(this.size.multiplying(0.5));
+    }
+
+    public contains(vector: Vector2D): boolean {
+        return this.x < vector.x && (this.x + this.width) > vector.x
+            && this.y < vector.y && (this.y + this.height) > vector.y;
     }
 
     public translate(x: number | Vector2D, y?: number) {
@@ -51,5 +72,14 @@ export class Rect2D {
         } else {
             this.origin.add(new Vector2D(x, x));
         }
+    }
+
+    public centerRect(size: Vector2D): Rect2D {
+        return new Rect2D(
+            this.x - size.x / 2,
+            this.y - size.y / 2,
+            size.width,
+            size.height,
+        );
     }
 }
