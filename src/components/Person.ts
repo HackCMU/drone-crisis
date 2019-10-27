@@ -27,8 +27,11 @@ export class Person extends Mobile {
 
     public update(deltaMs: number, game: Game): void {
         if (!this.isAlive) {
-            game.removeComponent(this);
-            Fragment.createExplosion(game, this.frame.center, 20, this.frame.width / 20);
+            Fragment.createExplosion(game, this.frame.center, 20, 15);
+            game.scene!.removeComponent(this);
+        }
+        if (Person.chance(0.002)) {
+            this.die();
         }
         if (this.frame.x < this.left - 70) {
             this.vel = Vector2D.unitVectors.right.multiplying(this.speed);

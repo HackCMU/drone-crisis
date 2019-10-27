@@ -26,10 +26,10 @@ export abstract class Scene {
     public sceneWillDisappear() { }
     /** Invoked when the scene is added to the Game and will be presented to the user */
     public sceneWillAppear() { }
-    protected addComponent(component: Component) {
+    public addComponent(component: Component) {
         this.components.add(component);
     }
-    protected removeComponent(component: Component) {
+    public removeComponent(component: Component) {
         this.components.delete(component);
     }
 }
