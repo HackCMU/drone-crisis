@@ -56,7 +56,7 @@ export class Drone extends Mobile {
 
     public fire(dir: Vector2D) {
         const frame = new Rect2D(this.frame.center.copy(), new Vector2D(20, 3));
-        const bullet = new Bullet(dir.normalized().multiplying(500), frame);
+        const bullet = new Bullet(dir.normalized().multiplying(1000), frame);
         this.bulletsToFire.push(bullet);
     }
 

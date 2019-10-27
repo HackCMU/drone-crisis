@@ -19,6 +19,6 @@ import {Vector2D} from './Vector2D';
     // game.addComponent(new TestSquare(Depth.BUILDING_2, new Rect2D(game.frame.center, Vector2D.zero)));
     game.addComponent(new Drone(new Rect2D(game.frame.center, new Vector2D(20, 20))));
     for (let i = 0; i <= 50; i++) {
-        game.addComponent(new Person(Depth.FRONT, new Rect2D(new Vector2D(game.frame.width * Math.random(), game.frame.height * Math.random()), new Vector2D(100,  100)), 100));
+        game.addComponent(new Person(Depth.FRONT, new Rect2D(new Vector2D(game.frame.width * Math.random(), game.frame.height * Math.random()), new Vector2D(60,  60)), 50));
     }
 })();
