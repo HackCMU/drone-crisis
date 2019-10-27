@@ -1,6 +1,7 @@
 import {Game} from '../Game';
 import {getImage} from '../Image';
 import {Rect2D} from '../Rect2D';
+import {Scene1} from '../scenes/Scene1';
 import {Vector2D} from '../Vector2D';
 import {Bullet} from './Bullet';
 import {Depth} from './Depth';
@@ -16,10 +17,10 @@ export class Person extends Mobile {
 
     public constructor(
         depth: Depth,
-        start: Vector2D,
-        private speed: number,
-        private left: number,
-        private right: number,
+        public start: Vector2D,
+        public speed: number,
+        public left: number,
+        public right: number,
     ) {
         super(depth, new Rect2D(start, new Vector2D(200, 200)), Vector2D.zero, 200, Vector2D.zero);
         this.vel = Person.randomDir.multiplying(speed);

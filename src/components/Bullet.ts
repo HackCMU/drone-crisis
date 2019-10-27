@@ -21,6 +21,9 @@ export class Bullet extends Mobile {
     }
 
     public update(deltaMs: number, game: Game): void {
+        if (!(new Rect2D(Vector2D.zero, game.scene!.dimensions).contains(this.frame.origin))) {
+            this.hasExpired = true;
+        }
         if (this.hasExpired) {
             game.scene!.removeComponent(this);
         }

@@ -6,6 +6,7 @@ import {Keyboard} from './Keyboard';
 import {MonoDimensionTransitionControl} from './MonoDimensionTransitionControl';
 import {Rect2D} from './Rect2D';
 import {Scene} from './scenes/Scene';
+import {Scene1} from './scenes/Scene1';
 import {Vector2D} from './Vector2D';
 
 export class Game {
@@ -90,6 +91,10 @@ export class Game {
                         const h = person.frame.height;
                         if (x <= myX + w && x >= myX && y <= myY + h && y >= myY) {
                             person.die();
+                            const newPerson = new Person(person.depth, person.start, person.speed, person.left, person.right);
+                            setTimeout(() => {
+                                this.scene!.addComponent(newPerson);
+                            }, Math.random() * 5000);
                             bullet.hasExpired = true;
                         }
                     }
@@ -129,7 +134,7 @@ export class Game {
         this.update();
         this.render();
         requestAnimationFrame(this.loop);
-    }
+    };
 
     /** Set the dimensions of all canvases */
     public setCanvasDimension(newDimensions: Vector2D) {
@@ -190,7 +195,7 @@ export class Game {
         if (typeof component !== 'undefined') {
             component.didSelect();
         }
-    }
+    };
 
     private onTouchEndEvent = (event: TouchEvent) => {
         const bounds = this.getBounds();
@@ -204,7 +209,7 @@ export class Game {
         if (typeof component !== 'undefined') {
             component.didSelect();
         }
-    }
+    };
 
     public getBounds(): Rect2D {
         const size = new Vector2D(window.innerWidth, window.innerHeight);
