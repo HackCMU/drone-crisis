@@ -1,5 +1,7 @@
+import {Bullet} from './components/Bullet';
 import {Component} from './components/Component';
 import {Depth} from './components/Depth';
+import {Person} from './components/Person';
 import {Keyboard} from './Keyboard';
 import {Rect2D} from './Rect2D';
 import {Scene} from './scenes/Scene';
@@ -10,7 +12,7 @@ export class Game {
     public readonly keyboard: Keyboard = new Keyboard();
     public frame: Rect2D;
     /** Components in this game */
-    private components: Set<Component> = new Set();
+    public components: Set<Component> = new Set();
     /** Different layers */
     private canvases: Array<[HTMLCanvasElement, CanvasRenderingContext2D]> = [];
     /** The scene that is currently being presented */
@@ -18,6 +20,7 @@ export class Game {
 
     /** Render all components */
     private render() {
+        this.checkCollisions();
         this.canvases.forEach(canvas => canvas[1].clearRect(
             0, 0, canvas[0].width, canvas[0].height,
         ));
@@ -29,6 +32,28 @@ export class Game {
         if (this.scene != null) {
             for (const component of this.scene.components.values()) {
                 this.renderComponent(component, this.canvases[component.depth][1]);
+            }
+        }
+    }
+
+    // Check collisions between components
+    private checkCollisions(): void {
+        for (const person of this.components) {
+            if (person instanceof Person) {
+                for (const bullet of this.components) {
+                    if (bullet instanceof Bullet) {
+                        const x = bullet.frame.x;
+                        const y = bullet.frame.y;
+                        const myX = person.frame.x;
+                        const myY = person.frame.y;
+                        const w = person.frame.width;
+                        const h = person.frame.height;
+                        if (x <= myX + w && x >= myX && y <= myY + h && y >= myY) {
+                            person.die();
+                            bullet.hasExpired = true;
+                        }
+                    }
+                }
             }
         }
     }

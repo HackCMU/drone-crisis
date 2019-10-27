@@ -16,7 +16,7 @@ export class Vector2D {
      * @returns a new random unit vector
      */
     public static get random(): Vector2D {
-        return new Vector2D(Math.random(), Math.random());
+        return new Vector2D(Math.random() - 0.5, Math.random() - 0.5);
     }
 
     public add(another: Vector2D) {

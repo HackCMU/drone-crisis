@@ -49,11 +49,13 @@ export class Drone extends Mobile {
 
     public render(ctx: CanvasRenderingContext2D): void {
         ctx.fillStyle = `rgb(0, 0, 0)`;
-        ctx.fillRect(0, 0, this.frame.size.x, this.frame.size.y);
+        ctx.beginPath();
+        ctx.arc(this.frame.width / 2, this.frame.height / 2, this.frame.width / 2, 0, Math.PI * 2);
+        ctx.fill();
     }
 
     public fire(dir: Vector2D) {
-        const frame = new Rect2D(this.frame.origin.copy(), new Vector2D(20, 3));
+        const frame = new Rect2D(this.frame.center.copy(), new Vector2D(20, 3));
         const bullet = new Bullet(dir.normalized().multiplying(500), frame);
         this.bulletsToFire.push(bullet);
     }

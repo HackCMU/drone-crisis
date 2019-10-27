@@ -6,6 +6,7 @@ import {Depth} from './Depth';
 import {Mobile} from './Mobile';
 
 export class Bullet extends Mobile {
+    public hasExpired = false;
 
     /**
      * Instantiates a new bullet object.
@@ -20,6 +21,9 @@ export class Bullet extends Mobile {
     }
 
     public update(deltaMs: number, game: Game): void {
+        if (this.hasExpired) {
+            game.removeComponent(this);
+        }
         super.update(deltaMs, game);
     }
 

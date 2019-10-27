@@ -2,7 +2,9 @@ import {Game} from '../Game';
 import {getImage} from '../Image';
 import {Rect2D} from '../Rect2D';
 import {Vector2D} from '../Vector2D';
+import {Bullet} from './Bullet';
 import {Depth} from './Depth';
+import {Fragment} from './Fragment';
 import {Mobile} from './Mobile';
 
 export class Person extends Mobile {
@@ -12,6 +14,7 @@ export class Person extends Mobile {
     private static readonly numFrames = 12;
     // Start at different frame to prevent mob effect.
     private currIdx: number = Math.floor(Math.random() * Person.numFrames);
+    private isAlive = true;
 
     public constructor(depth: Depth, frame: Rect2D, public speed: number) {
         super(depth, frame, Vector2D.zero, 200, Vector2D.zero);
@@ -19,6 +22,10 @@ export class Person extends Mobile {
     }
 
     public update(deltaMs: number, game: Game): void {
+        if (!this.isAlive) {
+            game.removeComponent(this);
+            Fragment.createExplosion(game, this.frame.center, 20, this.frame.width / 20);
+        }
         if (Person.chance(0.01)) {
             this.vel = Person.randomDir.multiplying(this.speed);
         }
@@ -35,6 +42,10 @@ export class Person extends Mobile {
         ctx.drawImage(image, 0, 0, this.frame.size.x, this.frame.size.y);
         ctx.restore();
         this.currIdx += Person.k / this.speed;
+    }
+
+    public die() {
+        this.isAlive = false;
     }
 
     private static chance(prob: number): boolean {
