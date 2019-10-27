@@ -25,7 +25,7 @@ function loadImageOnce(url: string): Promise<HTMLImageElement> {
     img.addEventListener('load', () => {
       resolve(img);
     });
-    img.addEventListener('error', error => {
+    img.addEventListener('error', () => {
       reject(new Error(`Failed to load ${url}.`));
     });
   });

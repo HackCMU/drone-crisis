@@ -17,6 +17,7 @@ export class Game {
     private canvases: Array<[HTMLCanvasElement, CanvasRenderingContext2D]> = [];
     /** The scene that is currently being presented */
     private scene?: Scene;
+    public cameraAnchor: Vector2D = Vector2D.zero;
 
     /** Render all components */
     private render() {
@@ -75,7 +76,7 @@ export class Game {
         this.update();
         this.render();
         requestAnimationFrame(this.loop);
-    };
+    }
 
     /** Set the dimensions of all canvases */
     public setCanvasDimension(newDimensions: Vector2D) {
