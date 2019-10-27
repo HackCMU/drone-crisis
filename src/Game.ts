@@ -44,6 +44,7 @@ export class Game {
         document.body.appendChild(container);
         requestAnimationFrame(this.loop);
         window.addEventListener('mouseup', this.onMouseUpEvent);
+        window.addEventListener('touchstart', this.onTouchEndEvent);
     }
 
     public setCamera(newCenter: Vector2D, scale: number) {
@@ -180,6 +181,20 @@ export class Game {
     private onMouseUpEvent = (event: MouseEvent) => {
         const bounds = this.getBounds();
         const position = (new Vector2D(event.clientX, event.clientY))
+            .multiplying(1 / this.cameraScale)
+            .adding(bounds.origin);
+        console.log(bounds, position);
+        const component = this.componentAtPosition(position);
+        if (typeof component !== 'undefined') {
+            component.didSelect();
+        }
+    }
+
+    private onTouchEndEvent = (event: TouchEvent) => {
+        const bounds = this.getBounds();
+        const position = (new Vector2D(
+            event.touches.item(0)!.clientX,
+            event.touches.item(0)!.clientY))
             .multiplying(1 / this.cameraScale)
             .adding(bounds.origin);
         console.log(bounds, position);
