@@ -65,6 +65,6 @@ export class Scene1 extends Scene {
     this.addComponent(new Background(Depth.BUILDING_2, getImage('2Artboard 1')));
     this.addComponent(new White(Depth.WHITE, new Rect2D(Vector2D.zero, Vector2D.zero)));
 
-    this.addComponent(new Drone(new Rect2D(new Vector2D(50, 1800), new Vector2D(20, 20))));
+    this.addComponent(new Drone(new Rect2D(new Vector2D(50, 1800), new Vector2D(60, 60))));
   }
 }
