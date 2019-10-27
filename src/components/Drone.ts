@@ -7,6 +7,8 @@ import {Bullet} from './Bullet';
 import {Component} from './Component';
 import {Depth} from './Depth';
 import {Mobile} from './Mobile';
+import {Person} from './Person';
+import {Text} from './Text';
 
 export class Drone extends Mobile {
     private bulletsToFire: Array<Bullet> = [];
@@ -33,6 +35,7 @@ export class Drone extends Mobile {
     }
 
     private lastHeadingRight: boolean = true;
+
     public update(deltaMs: number, game: Game): void {
         if (this.isAccelerating(game)) {
             // Accelerate
@@ -51,13 +54,14 @@ export class Drone extends Mobile {
     }
 
     private a: number = 1;
+
     private updateCamera(game: Game) {
         const height = Math.max((game.scene!.dimensions.y - this.frame.center.y) * 1.4, 600);
         const scale = height / window.innerHeight;
         const width = scale * window.innerWidth;
         const x = this.lastHeadingRight
-          ? this.frame.center.x - width * 0.3
-          : this.frame.center.x - width * 0.7;
+            ? this.frame.center.x - width * 0.3
+            : this.frame.center.x - width * 0.7;
         game.moveCamera(new Vector2D(x + width / 2, game.scene!.dimensions.y - height / 2), 1 / scale);
         // if (game.keyboard.isKeyPressed(Key.Q)) {
         //     this.a -= 0.1;
@@ -69,10 +73,8 @@ export class Drone extends Mobile {
     }
 
     public render(ctx: CanvasRenderingContext2D): void {
-        ctx.fillStyle = `rgb(0, 0, 0)`;
-        ctx.beginPath();
-        ctx.arc(this.frame.width / 2, this.frame.height / 2, this.frame.width / 2, 0, Math.PI * 2);
-        ctx.fill();
+        const img = getImage('drone_body');
+        ctx.drawImage(img, 0, 0, this.frame.width, this.frame.height);
     }
 
     public fire(dir: Vector2D) {
