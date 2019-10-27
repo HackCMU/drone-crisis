@@ -35,12 +35,13 @@ export class Text extends Component {
         const textSize = new Vector2D(canvasTextSize.width, this.fontSize);
         const translatedTextPosition = this.anchor
             .adding(new Vector2D(-0.5, -0.5))
-            .innerProduct(textSize);
+            .innerProduct(textSize)
         if (this.frame.size.width !== textSize.width) {
             this.frame.size = textSize;
             this.frame.origin.add(translatedTextPosition);
+            this.frame.origin.add(this.frame.size.multiplying(-0.5));
         }
-        ctx.fillRect(0, 0, textSize.width, textSize.height)
+        // ctx.fillRect(0, 0, textSize.width, textSize.height)
         ctx.fillText(
             this.content,
             translatedTextPosition.x,
