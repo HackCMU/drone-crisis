@@ -27,7 +27,7 @@ export class Person extends Mobile {
 
     public update(deltaMs: number, game: Game): void {
         if (!this.isAlive) {
-            Fragment.createExplosion(game, this.frame.center, 20, this.frame.width / 10);
+            Fragment.createExplosion(game, this.frame.center, 20, this.frame.width / 15);
             game.scene!.removeComponent(this);
         }
         if (this.frame.x < this.left - 70) {

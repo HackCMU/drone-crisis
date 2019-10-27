@@ -90,7 +90,6 @@ export class Game {
                         const h = person.frame.height;
                         if (x <= myX + w && x >= myX && y <= myY + h && y >= myY) {
                             person.die();
-                            console.log('boom');
                             bullet.hasExpired = true;
                         }
                     }

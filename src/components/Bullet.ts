@@ -22,7 +22,7 @@ export class Bullet extends Mobile {
 
     public update(deltaMs: number, game: Game): void {
         if (this.hasExpired) {
-            game.removeComponent(this);
+            game.scene!.removeComponent(this);
         }
         super.update(deltaMs, game);
     }
