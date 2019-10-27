@@ -11,7 +11,8 @@ import {Person} from './Person';
 import {Text} from './Text';
 
 export class Drone extends Mobile {
-    private bulletsToFire: number = 0;
+    private reloadDurationMs = 100;
+    private lastFired = Date.now();
 
     /**
      * Instantiates a new drone object.
@@ -44,7 +45,10 @@ export class Drone extends Mobile {
         super.update(deltaMs, game);
         this.updateCamera(game);
         if (game.keyboard.isKeyPressed(Key.SPACE)) {
-            this.fire(game);
+            if (Date.now() - this.lastFired > this.reloadDurationMs) {
+                this.fire(game);
+                this.lastFired = Date.now();
+            }
         }
     }
 
@@ -74,7 +78,11 @@ export class Drone extends Mobile {
 
     public fire(game: Game) {
         const frame = new Rect2D(this.frame.center.copy(), new Vector2D(20, 3));
-        const dir = this.vel.normalized().multiplying(2000);
+        let dir = this.vel.normalized();
+        if (this.vel.mag < 5) {
+            dir = Vector2D.unitVectors.right;
+        }
+        dir.multiply(2000);
         const bullet = new Bullet(this.vel.adding(dir), frame);
         game.scene!.addComponent(bullet);
     }
